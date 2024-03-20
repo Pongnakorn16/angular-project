@@ -1,0 +1,35 @@
+<div style="display: flex; justify-content: center; align-items: center; height: 100vh;background: linear-gradient(to right, rgb(233, 108, 108),rgb(237, 39, 158));">
+    <mat-card style="max-width: 800px; margin-bottom: 8px;padding: 40px;background-color: white;">
+        <h2 style="display: flex;justify-content: center;">Sign up</h2>
+        <mat-form-field appearance="outline" style="width: 200px;">
+            <mat-label>Email</mat-label>
+            <input matInput [(ngModel)]="email" placeholder="Enter Email">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" style="width: 200px;">
+            <mat-label>Username</mat-label>
+            <input matInput [(ngModel)]="username" placeholder="Enter username">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" style="width: 200px;">
+            <mat-label>Password</mat-label>
+            <input matInput [(ngModel)]="password" placeholder="Enter password">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" style="width: 200px;">
+            <mat-label>Type</mat-label>
+            <mat-select [(ngModel)]="type">
+                <mat-option *ngFor="let type of types" [value]="type.name">
+                    {{type.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <h3 style="display: flex;justify-content: center;">{{signUp_status}}</h3>
+
+        <button mat-raised-button color="primary" (click)="sign_up()"style="margin-bottom: 10px;">sign up</button>
+
+        <button mat-raised-button color="accent" (click)="go_sign_in()">back to sign in</button>
+
+    </mat-card>
+</div>

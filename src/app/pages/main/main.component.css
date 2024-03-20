@@ -1,0 +1,20 @@
+@keyframes colorChange {
+    0% { color: red; }
+    25% { color: blue; }
+    50% { color: green; }
+    75% { color: orange; }
+    100% { color: purple; }
+    0% { transform: scale(1); } /* ขนาดเริ่มต้น */
+    50% { transform: scale(1.5); } /* ขนาดกลางทาง */
+    100% { transform: scale(1); } 
+}
+
+.dok 
+{
+    display: flex;
+    justify-content: center; 
+    animation: colorChange 4s infinite alternate;
+    transform: scale(1);
+    position: relative; 
+    z-index: 1; 
+}

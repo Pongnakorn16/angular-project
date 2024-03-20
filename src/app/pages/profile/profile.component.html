@@ -1,0 +1,14 @@
+<div style="display: flex; justify-content: center; align-items: center; height: 100vh;background-color: rgb(243, 193, 243)">
+    <mat-card style="max-width: 800px; margin-bottom: 8px;padding: 40px; background: linear-gradient(to right, rgb(255, 0, 187),rgb(255, 0, 98));">
+        <h2 style="display: flex;justify-content: center;color: #ffffff;">User Profile</h2>
+
+        <mat-card-content style="padding: 5px;display: flex;justify-content: center;align-items: center;">
+            <img mat-card-lg-image src="{{userImage}}" alt="Have no image" style="padding: 10px;">
+        </mat-card-content>
+
+        <h3>Username : {{Username}}</h3>
+        <h5>Bio : {{bio}}</h5>
+        <button mat-raised-button color="primary" (click)="back()" style="padding: 10px;margin-right: 10px;">
+            back</button>
+    </mat-card>
+</div>

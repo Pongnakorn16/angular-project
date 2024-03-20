@@ -1,0 +1,22 @@
+<div style="display: flex; justify-content: center; align-items: center; height: 100vh;background: linear-gradient(to right, rgb(233, 108, 108),rgb(237, 39, 158));">
+<mat-card style="max-width: 800px; margin-bottom: 8px;padding: 40px;background-color: white;">
+    <h2 style="display: flex;justify-content: center;">Sign in</h2>
+    <mat-form-field appearance="outline" style="width: auto;">
+        <mat-label>Email</mat-label>
+        <input matInput [(ngModel)]="email" placeholder="Enter Email">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" style="width: auto;">
+        <mat-label>Password</mat-label>
+        <input matInput [(ngModel)]="password" placeholder="Enter password">
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" (click)="sign_in()" style="margin-bottom: 10px;">sign in</button>
+
+    <button mat-raised-button color="accent" (click)="sign_up()" style="margin-bottom: 10px;">sign up</button>
+
+    <button mat-raised-button color="primary" (click)="go_main_noLog()">back to main without sign in</button>
+    
+        <h2>{{signIn_check}}</h2>
+    </mat-card>
+</div>
