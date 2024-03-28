@@ -79,5 +79,14 @@
                 <h3 class="dok">Left-Image score : {{images_score1}} - {{decrease_score1}} = {{result_score1}}</h3>
             </div>
         </div>
+        <div *ngIf="vote_chk === 3" style="display: flex;justify-content: center;padding: 20px;">
+            <div style="padding: 20px;">
+                <h3 class="dok">You can't vote on same Image within : {{X_time}} ({{sec}}) seconds</h3>
+            </div>
+    </div>
+    <div *ngIf="vote_chk === 4" style="display: flex;justify-content: center;padding: 20px;">
+        <div style="padding: 20px;">
+            <h3 class="dok">Now you can vote same Image!!!</h3>
+        </div>
     </div>
 </div>

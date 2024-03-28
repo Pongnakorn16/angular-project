@@ -69,8 +69,19 @@ export class MainComponent implements OnInit{
   result_score2 : any;
   increase_score2 : any;
   decrease_score2 : any;
+  X_time : any;
+  sec : any;
 
      async ngOnInit() {
+      if(this.S_params.s_Xtime == null){
+        this.X_time = 10;
+        console.log(this.X_time);
+        
+      }else{
+        this.X_time = this.S_params.s_Xtime;
+        console.log(this.X_time);
+        
+      }
       
       console.log(this.S_params.s_uid);
       this.images =[];
@@ -107,15 +118,7 @@ export class MainComponent implements OnInit{
       console.log(currentHour);
       console.log(currentMinute);
 
-        for(let i=0;i<this.images.length;i++){
-          this.SED_score = this.images[i].score
-          this.SED_pid  = this.images[i].pid
-            const bodySED = {
-            SED_score : this.SED_score
-          };
-        }
-
-           this.img_url = this.getRandomImages(this.images, 2);
+           this.img_url = this.getRandomImages(this.images, 2 ,this.X_time);
            this.vote_chk = null;
       console.log(this.img_url);
       if(this.img_url.length == 1){
@@ -181,14 +184,16 @@ export class MainComponent implements OnInit{
     }
 
     async vote(input_pid : any){
+      if(this.S_params.s_Delay_chk == 1 && input_pid == this.S_params.s_vote_pid_chk){
+         this.vote_chk = 3
+      }else{
       this.S_params.s_vote_pid = input_pid;
       console.log(this.S_params.s_vote_pid);
       console.log(this.S_params.s_uid);
       
       if(input_pid == this.img1_pid){ ////////// img1 win
 
-      this.vote_chk = 1
-
+        this.vote_chk = 1
 
         this.Change_chk  = 1
 
@@ -219,10 +224,13 @@ export class MainComponent implements OnInit{
         console.log(this.img2_pid);
         console.log(this.R_score_img1);
         console.log(this.R_score_img2);
-        
 
+        console.log(this.increase_score);
+        console.log(this.decrease_score);
+        
         await this.tripService.updateScore(this.img1_pid,body);
         await this.tripService.updateSED(input_pid,body);
+
 
         const body1 = {
           vote_uid: this.S_params.s_uid,
@@ -233,7 +241,6 @@ export class MainComponent implements OnInit{
         await this.tripService.vote(this.S_params.s_vote_pid,body1);
 
       }else if(input_pid == this.img2_pid){ ////////// img2 win
-
 
         this.vote_chk = 2
 
@@ -255,7 +262,6 @@ export class MainComponent implements OnInit{
         this.images_score1 = this.img1_score
         this.result_score1 = this.R_score_img1
         this.decrease_score1 = this.decrease_score
-
 
         const body = {
           lose_pid : this.img1_pid,
@@ -280,19 +286,19 @@ export class MainComponent implements OnInit{
         };
         await this.tripService.vote(this.S_params.s_vote_pid,body2);
       }
-
       setTimeout(() => {
         this.ngOnInit(); 
       }, 2000);
     }
+  }
 
 
-  constructor(private http: HttpClient, private tripService : TripService,private constants : Constants,private router: Router,private S_params : ServiceParams,public dialog: MatDialog) {}
-  getRandomImages(images: any[], count: number): any[] {
-    
+  constructor(private http: HttpClient, private tripService : TripService,private constants : Constants,private router: Router,private S_params : ServiceParams) {}
+  getRandomImages(images: any[], count: number, X_time: number): any[] {
     const shuffled = images.sort(() => 0.5 - Math.random());
-
     const selectedImages = [];
+    let sameVoteLogged = false;
+
     for (let i = 0; i < shuffled.length; i++) {
         const currentImage = shuffled[i];
         let isValid = true;
@@ -303,15 +309,38 @@ export class MainComponent implements OnInit{
                 break;
             }
         }
+
         if (isValid) {
             selectedImages.push(currentImage);
+            if (currentImage.pid === this.S_params.s_vote_pid && !sameVoteLogged) {
+                this.S_params.s_vote_pid_chk = this.S_params.s_vote_pid
+                this.S_params.s_Delay_chk = 1
+                console.log("Same Image");
+                this.countdown(X_time);
+            }
         }
 
         if (selectedImages.length === count) {
             break;
         }
     }
+
     return selectedImages;
 }
 
+countdown = (seconds: number) => {
+    const interval = setInterval(() => {
+        console.log(seconds);
+        this.sec = seconds;
+        seconds--;
+
+        if (seconds < 0) {
+            clearInterval(interval);
+            console.log("You can vote now");
+            this.S_params.s_Delay_chk = 2
+            this.vote_chk = 4
+        }
+    }, 1000);
 }
+}
+
