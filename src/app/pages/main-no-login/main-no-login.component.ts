@@ -314,7 +314,9 @@ countdown = (seconds: number) => {
             clearInterval(interval);
             console.log("You can vote now");
             this.S_params.s_Delay_chk = 2
-            this.vote_chk = 4
+            if(this.vote_chk == 3){
+              this.vote_chk = 4
+            }
         }
     }, 1000);
 }
