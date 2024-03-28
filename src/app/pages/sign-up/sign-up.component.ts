@@ -58,7 +58,7 @@ export class SignUpComponent {
     }
 
     go_sign_in(){
-        this.router.navigateByUrl('');
+        this.router.navigateByUrl('sign-in');
     }
 
   email : string = ''; 

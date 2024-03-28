@@ -65,8 +65,20 @@ export class MainNoLoginComponent implements OnInit{
   result_score2 : any;
   increase_score2 : any;
   decrease_score2 : any;
+  X_time : any;
+  Delay_chk : any;
 
      async ngOnInit() {
+      this.Delay_chk = 0;
+      if(this.S_params.s_Xtime == null){
+        this.X_time = 10;
+        console.log(this.X_time);
+        
+      }else{
+        this.X_time = this.S_params.s_Xtime;
+        console.log(this.X_time);
+        
+      }
       console.log(this.S_params.s_uid);
       this.images =[];
       this.images =  await this.tripService.getImage();
@@ -94,7 +106,7 @@ export class MainNoLoginComponent implements OnInit{
       console.log(this.SED_hour);
       console.log(this.SED_minute);
       
-      
+      console.log(currentDate);
       console.log(currentDay);
       console.log(currentMonth);
       console.log(currentYear);
@@ -107,17 +119,16 @@ export class MainNoLoginComponent implements OnInit{
             const bodySED = {
             SED_score : this.SED_score
           };
-              if(this.SED_date < currentDate){
+              if(this.SED_day < currentDay){
                 await this.tripService.insertSED(this.SED_pid,bodySED);
                 console.log("Insert!!!!");
               }else{
                 console.log("Same Date!!");
-                
               }
         }
       
 
-      this.img_url = this.getRandomImages(this.images, 2);
+      this.img_url = this.getRandomImages(this.images, 2 ,this.X_time);
       this.vote_chk = null;
       console.log(this.img_url);
       if(this.img_url.length == 1){
@@ -150,6 +161,10 @@ export class MainNoLoginComponent implements OnInit{
     }
 
     async vote(input_pid : any){
+      if(this.S_params.s_Delay_chk == 1 && input_pid == this.S_params.s_vote_pid_chk){
+         this.vote_chk = 3
+      }else{
+        console.log(this.Delay_chk);
       this.S_params.s_vote_pid = input_pid;
       console.log(this.S_params.s_vote_pid);
       console.log(this.S_params.s_uid);
@@ -253,14 +268,15 @@ export class MainNoLoginComponent implements OnInit{
         this.ngOnInit(); 
       }, 2000);
     }
+  }
 
 
   constructor(private http: HttpClient, private tripService : TripService,private constants : Constants,private router: Router,private S_params : ServiceParams) {}
-  getRandomImages(images: any[], count: number): any[] {
-    
+  getRandomImages(images: any[], count: number, X_time: number): any[] {
     const shuffled = images.sort(() => 0.5 - Math.random());
-
     const selectedImages = [];
+    let sameVoteLogged = false;
+
     for (let i = 0; i < shuffled.length; i++) {
         const currentImage = shuffled[i];
         let isValid = true;
@@ -271,15 +287,69 @@ export class MainNoLoginComponent implements OnInit{
                 break;
             }
         }
+
         if (isValid) {
             selectedImages.push(currentImage);
+            if (currentImage.pid === this.S_params.s_vote_pid && !sameVoteLogged) {
+                this.S_params.s_vote_pid_chk = this.S_params.s_vote_pid
+                this.S_params.s_Delay_chk = 1
+                console.log("Same Image");
+                this.countdown(X_time);
+            }
         }
 
         if (selectedImages.length === count) {
             break;
         }
     }
+
     return selectedImages;
 }
+
+countdown = (seconds: number) => {
+    const interval = setInterval(() => {
+        console.log(seconds);
+        seconds--;
+
+        if (seconds < 0) {
+            clearInterval(interval);
+            console.log("You can vote now");
+            this.S_params.s_Delay_chk = 2
+        }
+    }, 1000);
+}
+
+
+  
+  
+  
+  
+
+
+  //   getRandomImages(images: any[], count: number): any[] {
+    
+//     const shuffled = images.sort(() => 0.5 - Math.random());
+
+//     const selectedImages = [];
+//     for (let i = 0; i < shuffled.length; i++) {
+//         const currentImage = shuffled[i];
+//         let isValid = true;
+
+//         for (const selectedImage of selectedImages) {
+//             if (Math.abs(currentImage.score - selectedImage.score) > 150 || currentImage.uid === selectedImage.uid) {
+//                 isValid = false;
+//                 break;
+//             }
+//         }
+//         if (isValid) {
+//             selectedImages.push(currentImage);
+//         }
+
+//         if (selectedImages.length === count) {
+//             break;
+//         }
+//     }
+//     return selectedImages;
+// }
 
 }

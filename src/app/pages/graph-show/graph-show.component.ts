@@ -56,7 +56,7 @@ export class GraphShowComponent implements OnInit {
         this.chartData.labels.push(this.graph_score[i].s_date); // เข้าถึงข้อมูลวันที่และเพิ่มลงใน labels
         this.chartData.datasets[0].data.push(this.graph_score[i].s_score); // เข้าถึงข้อมูลคะแนนและเพิ่มลงใน data
       } 
-      const lastLabelIndex = 6;
+      const lastLabelIndex = this.graph_score.length - 1;
       this.chartData.datasets[0].data[lastLabelIndex] = this.graph_current_score[0].score;
   }
   

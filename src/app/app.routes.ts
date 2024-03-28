@@ -10,6 +10,7 @@ import { MainNoLoginComponent } from './pages/main-no-login/main-no-login.compon
 import { TopTenComponent } from './pages/top-ten/top-ten.component';
 import { GraphComponent } from './pages/graph/graph.component';
 import { GraphShowComponent } from './pages/graph-show/graph-show.component';
+import { FullTopTenComponent } from './pages/full-top-ten/full-top-ten.component';
 
 export const routes: Routes = [
     // {path: '', component: AsyncDemoComponent },
@@ -27,4 +28,5 @@ export const routes: Routes = [
     {path: 'top-ten', component: TopTenComponent},
     {path: 'graph', component: GraphComponent},
     {path: 'graph-show', component: GraphShowComponent},
+    {path: 'full-top-ten',component: FullTopTenComponent}
 ];

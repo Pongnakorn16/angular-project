@@ -18,4 +18,7 @@ export class ServiceParams {
   s_url_userImage : any;
   s_profile_uid : any;
   s_image_score : any;
+  s_Xtime : any;
+  s_Delay_chk : any;
+  s_vote_pid_chk : any;
 }

@@ -42,6 +42,16 @@ export class MainAdComponent implements OnInit{
     
     console.log(this.user_info_ad);
     }
+
+    insert_X(time: HTMLInputElement) {
+        console.log(time.value);
+        this.S_params.s_Xtime = time.value;
+        console.log(this.S_params.s_Xtime);
+      }
+
+    full_topten(){
+      this.router.navigateByUrl('/full-top-ten');
+    }
     sign_out(){
       this.router.navigateByUrl('');
     }
