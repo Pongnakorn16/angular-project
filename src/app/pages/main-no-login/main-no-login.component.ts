@@ -69,6 +69,8 @@ export class MainNoLoginComponent implements OnInit{
   sec : any;
 
      async ngOnInit() {
+      console.log("DOKKKKKKKKKKKKKKKKKKKKkk");
+      
       if(this.S_params.s_Xtime == null){
         this.X_time = 10;
         console.log(this.X_time);
@@ -163,11 +165,19 @@ export class MainNoLoginComponent implements OnInit{
       if(this.S_params.s_Delay_chk == 1 && input_pid == this.S_params.s_vote_pid_chk){
          this.vote_chk = 3
       }else{
-      this.S_params.s_vote_pid = input_pid;
+        if(input_pid == this.img1_pid && this.vote_chk == null){
+          this.S_params.s_vote_pid = input_pid;
+          console.log(this.S_params.s_vote_pid);
+          
+        }else if(input_pid == this.img2_pid && this.vote_chk == null){
+          this.S_params.s_vote_pid = input_pid;
+          console.log(this.S_params.s_vote_pid);
+        }
+      
       console.log(this.S_params.s_vote_pid);
       console.log(this.S_params.s_uid);
       
-      if(input_pid == this.img1_pid){ ////////// img1 win
+      if(input_pid == this.img1_pid && this.vote_chk != 2){ ////////// img1 win
 
         this.vote_chk = 1
 
@@ -216,7 +226,7 @@ export class MainNoLoginComponent implements OnInit{
         };
         await this.tripService.vote(this.S_params.s_vote_pid,body1);
 
-      }else if(input_pid == this.img2_pid){ ////////// img2 win
+      }else if(input_pid == this.img2_pid && this.vote_chk != 1){ ////////// img2 win
 
         this.vote_chk = 2
 
